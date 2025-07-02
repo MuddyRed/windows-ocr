@@ -50,15 +50,68 @@ graph LR
 ### 基础OCR识别
 
 ```bash
-# 基础识别
+# 单个文件识别
 ocr.exe document.jpg
 
 # 识别指定路径的图片
 ocr.exe "C:\Users\Username\Pictures\screenshot.png"
+
+# 批量递归识别目录下所有图片（注意结尾的斜杠）
+ocr.exe "C:\Images\"
+ocr.exe "./photos/"
 ```
 
+### 🆕 批量处理功能
 
-#### 识别示例
+#### 支持的图片格式
+- `.jpg`, `.jpeg`, `.png`, `.bmp`
+- `.tiff`, `.tif`, `.webp`, `.ico`
+- `.jfif`, `.pjpeg`, `.pjp`
+
+#### 批量识别示例
+
+**命令**:
+```bash
+ocr.exe "C:\Documents\Pictures\"
+```
+
+**输出结果**:
+```
+=== Scanning directory: C:\Documents\Pictures ===
+
+=== Processing: C:\Documents\Pictures\invoice.jpg ===
+OCR model loaded...
+Running ocr pipeline...
+Recognize 15 lines
+发票号码: 12345678
+开票日期: 2024-01-15
+...
+OCR results saved to ocr_result_1751287558.txt.
+
+=== Processing: C:\Documents\Pictures\screenshots\error.png ===
+OCR model loaded...
+Running ocr pipeline...
+Recognize 8 lines
+Error: Connection failed
+Please check your network settings
+...
+OCR results saved to ocr_result_1751287559.txt.
+
+=== Processing: C:\Documents\Pictures\photos\menu.jpg ===
+OCR model loaded...
+Running ocr pipeline...
+Recognize 20 lines
+餐厅菜单
+红烧肉 ¥58
+...
+OCR results saved to ocr_result_1751287560.txt.
+
+=== Summary ===
+Total images found: 25
+Successfully processed: 25
+```
+
+#### 单文件识别示例
 
 **原图像**:
 ![OCR示例图片](./1.jpg)
@@ -70,6 +123,7 @@ ocr.exe 1.jpg
 
 **输出结果**:
 ```
+=== Processing: 1.jpg ===
 OCR model loaded...
 Running ocr pipeline...
 Recognize 11 lines
@@ -88,9 +142,19 @@ S102附近讀城植物
 OCR results saved to ocr_result_1751287558.txt.
 ```
 
+### 💡 使用技巧
 
+1. **批量处理**: 在目录路径后添加 `/` 或 `\` 来触发批量模式
+2. **递归扫描**: 自动扫描所有子目录中的图片
+3. **输出文件**: 每个图片生成独立的结果文件 `ocr_result_<时间戳>.txt`
+4. **编码格式**: 所有输出文件采用 UTF-8 with BOM 编码
 
+### ⚠️ 注意事项
 
+- 批量处理时请确保目录路径以斜杠结尾
+- 程序会自动跳过无法识别的文件
+- 建议单次批量处理不超过 1000 个文件
+- 日志功能默认关闭，`--log` 参数当前已禁用
 
 ### 📊 识别效果对比
 
@@ -166,7 +230,7 @@ ocr.exe contract.jpg
 
 ### 🔥 即将推出的功能
 
-#### 🚀 2026年规划
+#### 🚀 2024年规划
 - **Q1**: 优化识别算法，提升准确率
 - **Q2**: 支持更多图片格式
 - **Q3**: 增加批量处理功能
